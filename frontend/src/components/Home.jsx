@@ -5,7 +5,7 @@ const Home = () => {
   const [problems, setProblems] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [username, setUsername] = useState("");
-  const [role, setRole] = useState("user");
+  const [access, setAccess] = useState("user");
   const nav = useNavigate();
 
   const getProblem = async () => {
@@ -16,8 +16,8 @@ const Home = () => {
     setProblems(json);
   }
 
-  const getRole = async () => {
-    const response = await fetch('http://127.0.0.1:3000/role', {
+  const getaccess = async () => {
+    const response = await fetch('http://127.0.0.1:3000/access', {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -27,7 +27,7 @@ const Home = () => {
       })
     });
     const json = await response.json();
-    setRole(json.role);
+    setAccess(json.access);
   }
 
   const logout = () => {
@@ -35,7 +35,7 @@ const Home = () => {
     localStorage.removeItem('token');
     setIsLoggedIn(false);
     setUsername("");
-    setRole("user");
+    setAccess("user");
   }
     
   const loginStatus = () => {
@@ -43,7 +43,7 @@ const Home = () => {
     if(user){
       setUsername(user);
       setIsLoggedIn(true);
-      getRole();
+      getaccess();
     } else {
       setIsLoggedIn(false);
     }
@@ -56,65 +56,69 @@ const Home = () => {
 
   return (
     <div className="min-h-screen bg-gray-100">
+      {/* Header Section */}
       <header className="bg-white shadow">
         <div className="container mx-auto px-4 py-3 flex justify-between items-center">
           <h1 className="text-3xl font-bold text-gray-800">CodeArena</h1>
           <div className="flex items-center space-x-4">
             {isLoggedIn ? (
               <>
-                <button onClick={() => nav(`/profile/${username}`)} className="text-blue-600 hover:underline">{username}</button>
-                <button onClick={logout} className="text-red-600 hover:underline">Logout</button>
+                <span className="text-gray-700">{username}</span>
+                <button onClick={logout} className="px-3 py-1 text-sm bg-red-500 text-white rounded hover:bg-red-600">Logout</button>
               </>
             ) : (
               <>
-                <button onClick={() => nav('/login')} className="text-blue-600 hover:underline">Enter</button>
-                <button onClick={() => nav('/register')} className="text-blue-600 hover:underline">Register</button>
+                <button onClick={() => nav('/login')} className="px-3 py-1 text-sm bg-blue-500 text-white rounded hover:bg-blue-600">Enter</button>
+                <button onClick={() => nav('/register')} className="px-3 py-1 text-sm bg-blue-500 text-white rounded hover:bg-blue-600">Register</button>
               </>
             )}
           </div>
         </div>
       </header>
 
+      {/* Navigation Bar */}
       <nav className="bg-gray-200 shadow-sm">
         <div className="container mx-auto px-4">
-          <ul className="flex space-x-6 py-2">
-            <li><a href="#" className="text-gray-700 hover:text-black">HOME</a></li>
-            <li><a href="#" className="text-gray-700 hover:text-black">CONTESTS</a></li>
-            <li><a href="#" className="text-gray-700 hover:text-black">PROBLEMSET</a></li>
-            {role === "admin" && (
+          <ul className="flex space-x-8 py-3">
+            <li><a href="#" className="text-gray-700 font-semibold hover:text-black">HOME</a></li>
+            <li><a href="#" className="text-gray-700 font-semibold hover:text-black">CONTESTS</a></li>
+            <li><a href="#" className="text-gray-700 font-semibold hover:text-black">PROBLEMSET</a></li>
+            {access === "admin" && (
               <>
-                <li><a href="/createcontests" className="text-gray-700 hover:text-black">CREATE CONTEST</a></li>
-                <li><a href="/setproblem" className="text-gray-700 hover:text-black">SET PROBLEM</a></li>
+                <li><a href="/createproblem" className="text-gray-700 font-semibold hover:text-black">SET PROBLEM</a></li>
               </>
             )}
           </ul>
         </div>
       </nav>
 
+      {/* Main Section */}
       <main className="container mx-auto px-4 py-8">
-        <div className="mb-8">
-          <h2 className="text-xl font-bold mb-4">Upcoming Contests</h2>
-          <p className="text-gray-600">No upcoming contests at the moment.</p>
-        </div>
-
-        <div className="bg-white shadow rounded-lg overflow-hidden">
+        {/* Problem Set Section */}
+        <div className="bg-white shadow-lg rounded-lg overflow-hidden">
           <h2 className="text-xl font-bold p-4 bg-gray-50 border-b">Problem Set</h2>
-          <table className="w-full">
+          <table className="w-full table-fixed border-collapse border border-gray-300">
             <thead className="bg-gray-100">
               <tr>
-                <th className="px-4 py-2 text-left">Title</th>
-                <th className="px-4 py-2 text-right">Difficulty</th>
+                <th className="px-4 py-2 w-1/12 text-left border border-gray-300">#</th>
+                <th className="px-4 py-2 w-8/12 text-left border border-gray-300">Name</th>
+                <th className="px-4 py-2 w-3/12 text-right border border-gray-300">Difficulty</th>
               </tr>
             </thead>
             <tbody>
-              {problems.map((prob) => (
+              {problems.length > 0 ? problems.map((prob, index) => (
                 <tr key={prob.title} className="border-t hover:bg-gray-50">
-                  <td className="px-4 py-2">
+                  <td className="px-4 py-2 border border-gray-300">{index + 1}</td>
+                  <td className="px-4 py-2 border border-gray-300">
                     <a href={`/problem/${prob.title}`} className="text-blue-600 hover:underline">{prob.title}</a>
                   </td>
-                  <td className="px-4 py-2 text-right">{prob.difficulty}</td>
+                  <td className="px-4 py-2 text-right border border-gray-300">{prob.difficulty}</td>
                 </tr>
-              ))}
+              )) : (
+                <tr>
+                  <td colSpan="3" className="px-4 py-2 text-center text-gray-500">No problems available</td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>
