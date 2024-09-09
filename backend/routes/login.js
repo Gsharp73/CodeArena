@@ -1,35 +1,32 @@
-require('dotenv').config()
+require('dotenv').config();
 const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
-const secret_token = process.env.SECRET_TOKEN;
+const secretToken = process.env.SECRET_TOKEN;
 
 router.post('/', async (req, res) => {
-    
-  const user = req.body;
-  let role = "user";
-  const USERS = await db.collection('users').find({}).toArray();
-  const ADMIN = await db.collection('admins').find({}).toArray();
+  try {
+    const { email, password } = req.body;
 
-  foundAdmin = ADMIN.find(x => x.email === user.email && x.password === user.password);
-  foundUser = USERS.find(x => x.email === user.email);
-  
-  if(foundAdmin)
-    role = "admin";
-  if(foundUser) {
-    if(foundUser.password === user.password){
-      const token = jwt.sign({
-        id: user.email,
-        role: role,
-      }, secret_token);
-      res.status(200).json({token});
+    const users = await db.collection('users').find({}).toArray();
+    const admins = await db.collection('admins').find({}).toArray();
+
+    const foundAdmin = admins.find(admin => admin.email === email);
+    if (foundAdmin && foundAdmin.password === password) {
+      const token = jwt.sign({ id: email, access: "admin" }, secretToken);
+      return res.status(200).json({ token });
     }
-    else {
-      res.status(401).json({msg:"Incorrect Password"});
+
+    const foundUser = users.find(user => user.email === email);
+    if (foundUser && foundUser.password === password) {
+      const token = jwt.sign({ id: email, access: "user" }, secretToken);
+      return res.status(200).json({ token });
     }
-  }
-  else {
-    res.status(401).send({msg:"User Not Found"});    
+    res.status(401).json({ msg: "User Not Found or Incorrect Password" });
+
+  } catch (error) {
+    console.error("Login error:", error);
+    res.status(500).json({ msg: "Internal Server Error" });
   }
 });
 
