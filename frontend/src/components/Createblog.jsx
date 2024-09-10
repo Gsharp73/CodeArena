@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 const CreateBlog = () => {
   const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
+  const [content, setContent] = useState(``);
   const [statusMessage, setStatusMessage] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [username, setUsername] = useState('');
