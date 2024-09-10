@@ -25,6 +25,8 @@ const Login = () => {
       if (response.ok) {
         localStorage.setItem("token", data.token);
         localStorage.setItem("username", email);
+        localStorage.setItem('access', data.access);
+        localStorage.setItem('isLoggedIn', true);
         navigate(-1); // previous page
       } else {
         setLoginResponse(data.msg);
