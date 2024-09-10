@@ -39,8 +39,6 @@ async function runTestcase(problem, submission) {
 
   for (let i = 0; i < problem.testcase.length; i++) {
     const testcase = problem.testcase[i];
-    // console.log("here", testcase.input);
-
     fs.writeFileSync(inputFilePath, testcase.input);
 
     const result = await executeInDocker(submission.language, {
@@ -102,7 +100,7 @@ async function executeInDocker(language, filePaths) {
     Cmd: ['sh', '-c', `${entryPoint} < input.txt > output.txt 2> error.txt`],
     Tty: false,
     HostConfig: {
-      Binds: [`${path.dirname(codeFilePath)}:/usr/src/app`],  // Bind mount the submission directory
+      Binds: [`${path.dirname(codeFilePath)}:/usr/src/app`], // volume binding
     },
     WorkingDir: '/usr/src/app',
   });
@@ -111,7 +109,6 @@ async function executeInDocker(language, filePaths) {
     await container.start();
     const result = await container.wait();
 
-    // Check container exit status
     if (result.StatusCode !== 0) {
       const error = fs.readFileSync(errorFilePath, 'utf-8');
       return {
