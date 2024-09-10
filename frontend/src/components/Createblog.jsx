@@ -15,7 +15,10 @@ const CreateBlog = () => {
 
   const submitBlog = async () => {
     setStatusMessage("Submitting...");
-
+    if (isLoggedIn === false) {
+      setStatusMessage('Login Required!!');
+      return;
+    }
     const response = await fetch('http://127.0.0.1:3000/createblog', {
       method: "POST",
       body: JSON.stringify({

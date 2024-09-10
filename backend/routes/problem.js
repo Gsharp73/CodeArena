@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { auth } = require('../utils/auth');
+const { auth } = require('../utils/authenticate');
 
 router.get('/:id', auth, async (req, res) => {
   try {

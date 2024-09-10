@@ -12,6 +12,7 @@ const {MongoClient} = require('mongodb')
 const problemRoute = require('./routes/problem');
 const createProblemRoute = require('./routes/createproblem');
 const createBlogRoute = require('./routes/createblog');
+const testprobRoute = require('./routes/testprob');
 
 function connectMongoDB() {
   const uri = process.env.MONGODB_URI
@@ -34,6 +35,7 @@ app.use('/register', registerRoute);
 app.use('/problem', problemRoute);
 app.use('/createproblem', createProblemRoute);
 app.use('/createblog', createBlogRoute);
+app.use('/testing', testprobRoute);
 
 app.listen(port, '0.0.0.0',() => {
   console.log(`listening on port ${port}`)

@@ -67,7 +67,7 @@ const Problem = () => {
 
     try {
       console.log(code);
-      const response = await fetch('http://127.0.0.1:3000/submission', {
+      const response = await fetch('http://127.0.0.1:3000/testing', {
         method: "POST",
         headers: {
           authorization: token,

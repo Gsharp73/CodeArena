@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { admin } = require('../utils/adminMiddleware');
+const { admin } = require('../utils/checkadminmw');
 
 router.post('/', async (req, res) => {
   try {
