@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import '../index.css';
 
 const Register = () => {
   const [email, setEmail] = useState("");
@@ -39,21 +38,29 @@ const Register = () => {
   };
 
   return (
-    <div>
-      <input
-        placeholder="Enter your email"
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <br />
-      <input
-        type="password"
-        placeholder="Enter your password"
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <br />
-      <button type="button" onClick={handleSubmit}>Sign Up</button>
-      <br />
-      {responseMessage}
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-6">
+      <div className="bg-white p-8 rounded shadow-md w-full max-w-sm">
+        <h2 className="text-2xl font-bold mb-4 text-center">Register</h2>
+        <input
+          className="w-full p-2 mb-4 border rounded"
+          placeholder="Enter your email"
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <input
+          type="password"
+          className="w-full p-2 mb-4 border rounded"
+          placeholder="Enter your password"
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <button
+          type="button"
+          className="bg-blue-500 text-white w-full py-2 rounded hover:bg-blue-600"
+          onClick={handleSubmit}
+        >
+          Register
+        </button>
+        <p className="mt-4 text-center text-red-500">{responseMessage}</p>
+      </div>
     </div>
   );
 };

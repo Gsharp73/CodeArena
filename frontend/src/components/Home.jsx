@@ -55,8 +55,7 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-100">
-      {/* Header Section */}
+    <div className="min-h-screen bg-blue-500">
       <header className="bg-white shadow">
         <div className="container mx-auto px-4 py-3 flex justify-between items-center">
           <h1 className="text-3xl font-bold text-gray-800">CodeArena</h1>
@@ -76,12 +75,10 @@ const Home = () => {
         </div>
       </header>
 
-      {/* Navigation Bar */}
       <nav className="bg-gray-200 shadow-sm">
         <div className="container mx-auto px-4">
           <ul className="flex space-x-8 py-3">
             <li><a href="#" className="text-gray-700 font-semibold hover:text-black">HOME</a></li>
-            <li><a href="#" className="text-gray-700 font-semibold hover:text-black">CONTESTS</a></li>
             <li><a href="#" className="text-gray-700 font-semibold hover:text-black">PROBLEMSET</a></li>
             {access === "admin" && (
               <>
@@ -92,9 +89,7 @@ const Home = () => {
         </div>
       </nav>
 
-      {/* Main Section */}
       <main className="container mx-auto px-4 py-8">
-        {/* Problem Set Section */}
         <div className="bg-white shadow-lg rounded-lg overflow-hidden">
           <h2 className="text-xl font-bold p-4 bg-gray-50 border-b">Problem Set</h2>
           <table className="w-full table-fixed border-collapse border border-gray-300">
@@ -102,7 +97,7 @@ const Home = () => {
               <tr>
                 <th className="px-4 py-2 w-1/12 text-left border border-gray-300">#</th>
                 <th className="px-4 py-2 w-8/12 text-left border border-gray-300">Name</th>
-                <th className="px-4 py-2 w-3/12 text-right border border-gray-300">Difficulty</th>
+                <th className="px-4 py-2 w-3/12 text-right border border-gray-300">Rating</th> 
               </tr>
             </thead>
             <tbody>
@@ -112,7 +107,7 @@ const Home = () => {
                   <td className="px-4 py-2 border border-gray-300">
                     <a href={`/problem/${prob.title}`} className="text-blue-600 hover:underline">{prob.title}</a>
                   </td>
-                  <td className="px-4 py-2 text-right border border-gray-300">{prob.difficulty}</td>
+                  <td className="px-4 py-2 text-right border border-gray-300">{prob.rating}</td>
                 </tr>
               )) : (
                 <tr>

@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import '../index.css';
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -17,7 +16,7 @@ const Login = () => {
         },
         body: JSON.stringify({
           email,
-          password
+          password,
         }),
       });
 
@@ -37,26 +36,32 @@ const Login = () => {
   };
 
   return (
-    <div className="login-container">
-      <input
-        placeholder="Email"
-        id="loginpage-input-email"
-        type="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <br />
-      <input
-        placeholder="Password"
-        id="loginpage-input-password"
-        type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <br />
-      <button type="button" onClick={handleSubmit}>Submit</button>
-      <br />
-      {loginResponse && <p className="login-response">{loginResponse}</p>}
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-6">
+      <div className="bg-white p-8 rounded shadow-md w-full max-w-sm">
+        <h2 className="text-2xl font-bold mb-4 text-center">Login</h2>
+        <input
+          className="w-full p-2 mb-4 border rounded"
+          placeholder="Email"
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <input
+          className="w-full p-2 mb-4 border rounded"
+          placeholder="Password"
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <button
+          type="button"
+          className="bg-blue-500 text-white w-full py-2 rounded hover:bg-blue-600"
+          onClick={handleSubmit}
+        >
+          Submit
+        </button>
+        {loginResponse && <p className="mt-4 text-center text-red-500">{loginResponse}</p>}
+      </div>
     </div>
   );
 };
