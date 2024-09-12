@@ -67,7 +67,7 @@ const Problem = () => {
 
     try {
       console.log(code);
-      const response = await fetch('http://65.1.3.37:3000/testing', {
+      const response = await fetch('http://ec2-65-1-3-37.ap-south-1.compute.amazonaws.com:3000/testing', {
         method: "POST",
         headers: {
           authorization: token,
@@ -82,6 +82,7 @@ const Problem = () => {
       });
 
       const received = await response.json();
+      console.log(received);
       setResult(received.result);
       setLogs(received.log);
       setOutput(received.output);

@@ -10,7 +10,7 @@ const Home = () => {
   const nav = useNavigate();
 
   const getBlogs = async () => {
-    const response = await fetch('http://65.1.3.37:3000/blogs', {
+    const response = await fetch('http://ec2-65-1-3-37.ap-south-1.compute.amazonaws.com:3000/blogs', {
       method: "GET",
     });
     const json = await response.json();
@@ -19,7 +19,7 @@ const Home = () => {
   }
 
   const getaccess = async () => {
-    const response = await fetch('http://65.1.3.37:3000/access', {
+    const response = await fetch('http://ec2-65-1-3-37.ap-south-1.compute.amazonaws.com:3000/access', {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

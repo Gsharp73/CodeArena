@@ -11,6 +11,7 @@ COPY postcss.config.js /app
 COPY tailwind.config.js /app
 COPY vite.config.js /app
 
+RUN npm install
 
 RUN mkdir /app/src
 COPY src/assets /app/src/assets
@@ -19,7 +20,6 @@ COPY src/App.jsx /app/src
 COPY src/index.css /app/src
 COPY src/main.jsx /app/src
 
-RUN npm install
 
 EXPOSE 5173
 

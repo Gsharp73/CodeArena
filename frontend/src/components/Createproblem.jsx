@@ -20,7 +20,7 @@ const Createprob = () => {
   const submitProblem = async () => {
     setStatusMessage("Submitting...");
     
-    const response = await fetch('http://65.1.3.37:3000/createproblem', {
+    const response = await fetch('http://ec2-65-1-3-37.ap-south-1.compute.amazonaws.com:3000/createproblem', {
       method: "POST",
       body: JSON.stringify({
         title,

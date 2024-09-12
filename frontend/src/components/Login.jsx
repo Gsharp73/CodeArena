@@ -9,7 +9,7 @@ const Login = () => {
 
   const handleSubmit = async () => {
     try {
-      const response = await fetch('http://65.1.3.37:3000/login', {
+      const response = await fetch('http://ec2-65-1-3-37.ap-south-1.compute.amazonaws.com:3000/login', {
         method: "POST",
         headers: {
           'Content-Type': 'application/json',
