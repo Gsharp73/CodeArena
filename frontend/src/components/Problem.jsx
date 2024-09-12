@@ -67,7 +67,7 @@ const Problem = () => {
 
     try {
       console.log(code);
-      const response = await fetch('https://codearena-backend.vercel.app/testing', {
+      const response = await fetch('http://localhost:3000/testing', {
         method: "POST",
         headers: {
           authorization: token,

@@ -14,6 +14,7 @@ const Home = () => {
       method: "GET",
     });
     const json = await response.json();
+    console.log(json);
     setBlogs(json);
   }
 

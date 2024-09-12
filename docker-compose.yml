@@ -1,0 +1,31 @@
+version: "3.8"
+networks:
+  codearena-p:
+    driver: bridge
+
+services:
+  backend:
+    build:
+      context: ./backend/ 
+    networks:
+      - codearena-p
+    ports:
+      - "3000:3000" 
+    volumes:
+      - ./backend:/app
+    environment:
+      - NODE_ENV=development  
+    depends_on:
+      - frontend
+
+  frontend:
+    build:
+      context: ./frontend/  
+    networks:
+      - codearena-p
+    ports:
+      - "8080:8080"  
+    volumes:
+      - ./frontend:/app
+    environment:
+      - NODE_ENV=development  
