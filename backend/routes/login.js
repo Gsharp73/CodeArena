@@ -14,14 +14,15 @@ router.post('/', async (req, res) => {
     const foundAdmin = admins.find(admin => admin.email === email);
     if (foundAdmin && foundAdmin.password === password) {
       const token = jwt.sign({ id: email, access: "admin" }, secretToken);
-      return res.status(200).json({ token });
+      return res.status(200).json({ token, access: "admin" });
     }
 
     const foundUser = users.find(user => user.email === email);
     if (foundUser && foundUser.password === password) {
       const token = jwt.sign({ id: email, access: "user" }, secretToken);
-      return res.status(200).json({ token });
+      return res.status(200).json({ token, access: "user" });
     }
+
     res.status(401).json({ msg: "User Not Found or Incorrect Password" });
 
   } catch (error) {

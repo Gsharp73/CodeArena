@@ -20,7 +20,7 @@ const Createprob = () => {
   const submitProblem = async () => {
     setStatusMessage("Submitting...");
     
-    const response = await fetch('http://127.0.0.1:3000/createproblem', {
+    const response = await fetch('https://codearena-backend.vercel.app/createproblem', {
       method: "POST",
       body: JSON.stringify({
         title,
