@@ -58,8 +58,8 @@ async function runTestcase(problem, submission) {
         error,
       };
     }
-    console.log('output', output.trim());
-    console.log('output testcase', testcase.output.trim());
+    // console.log('output', output.trim());
+    // console.log('output testcase', testcase.output.trim());
     if (output.trim() !== testcase.output.trim()) {
       return {
         result: 'WRONG ANSWER',
