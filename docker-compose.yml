@@ -4,19 +4,19 @@ networks:
     driver: bridge
 
 services:
-  backend:
+  cpp_docker:
     build:
-      context: ./backend/ 
+      context: ./cpp_docker
+      dockerfile: Dockerfile
     networks:
       - codearena-p
-    ports:
-      - "3000:3000" 
-    volumes:
-      - ./backend:/app
-    environment:
-      - NODE_ENV=development  
-    depends_on:
-      - frontend
+
+  python_docker:
+    build:
+      context: ./python_docker
+      dockerfile: Dockerfile
+    networks:
+      - codearena-p
 
   frontend:
     build:

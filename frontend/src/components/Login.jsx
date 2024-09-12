@@ -9,7 +9,7 @@ const Login = () => {
 
   const handleSubmit = async () => {
     try {
-      const response = await fetch('https://codearena-backend.vercel.app/login', {
+      const response = await fetch('http://65.1.3.37:3000/login', {
         method: "POST",
         headers: {
           'Content-Type': 'application/json',

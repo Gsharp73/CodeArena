@@ -10,7 +10,7 @@ const ProblemSet = () => {
   const nav = useNavigate();
 
   const getProblems = async () => {
-    const response = await fetch('https://codearena-backend.vercel.app/problems', {
+    const response = await fetch('http://65.1.3.37:3000/problems', {
       method: "GET",
     });
     const json = await response.json();
@@ -18,7 +18,7 @@ const ProblemSet = () => {
   }
 
   const getaccess = async () => {
-    const response = await fetch('https://codearena-backend.vercel.app/access', {
+    const response = await fetch('http://65.1.3.37:3000/access', {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
