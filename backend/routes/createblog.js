@@ -6,14 +6,16 @@ router.post('/', async (req, res) => {
   try {
     const newBlog = req.body;
     const blogCollection = db.collection('blogs');
-    const existingBlogs = await blogCollection.find({}).toArray();
-    const isDuplicate = existingBlogs.find(blog => blog.title === newBlog.title);
 
+    // Check for duplicate blog titles (optional)
+    const isDuplicate = await blogCollection.findOne({ title: newBlog.title });
     if (isDuplicate) {
       return res.status(400).json({ msg: "Blog title already exists" });
     }
 
+    // Insert the new blog document, MongoDB will automatically assign a unique _id
     await blogCollection.insertOne(newBlog);
+
     return res.status(200).json({ msg: "Blog successfully added" });
 
   } catch (error) {

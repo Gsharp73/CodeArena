@@ -13,6 +13,10 @@ const problemRoute = require('./routes/problem');
 const createProblemRoute = require('./routes/createproblem');
 const createBlogRoute = require('./routes/createblog');
 const testprobRoute = require('./routes/testprob');
+const coderunner = require('./routes/runcode');
+const submissionsRoute = require('./routes/submissions');
+const notesRoute = require('./routes/notes');
+const manageblogsRoute = require('./routes/manageblogs');
 
 function connectMongoDB() {
   const uri = process.env.MONGODB_URI
@@ -28,6 +32,8 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/access', accessRoute) 
+app.use('/submissions', submissionsRoute) 
+app.use('/runcode', coderunner)
 app.use('/problems', problemsRoute)
 app.use('/blogs', blogsRoute)
 app.use('/login', loginRoute);
@@ -36,6 +42,8 @@ app.use('/problem', problemRoute);
 app.use('/createproblem', createProblemRoute);
 app.use('/createblog', createBlogRoute);
 app.use('/testing', testprobRoute);
+app.use('/notes', notesRoute)
+app.use('/manageblogs', manageblogsRoute)
 
 const PORT = port || 3000;
 app.listen(PORT, () => {

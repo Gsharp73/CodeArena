@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Header from './Header';
-
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 const Createprob = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -20,7 +20,7 @@ const Createprob = () => {
   const submitProblem = async () => {
     setStatusMessage("Submitting...");
     
-    const response = await fetch('http://ec2-65-1-3-37.ap-south-1.compute.amazonaws.com:3000/createproblem', {
+    const response = await fetch(`${API_BASE_URL}/createproblem`, {
       method: "POST",
       body: JSON.stringify({
         title,

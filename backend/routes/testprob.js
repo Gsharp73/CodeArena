@@ -6,6 +6,7 @@ const docker = new Docker();
 const router = express.Router();
 const { auth } = require('../utils/authenticate');
 
+
 router.post('/', auth, async (req, res) => {
   const submission = req.body;
   const problem = await db.collection('problems').findOne({ title: submission.title });
@@ -16,12 +17,26 @@ router.post('/', auth, async (req, res) => {
 
   try {
     const result = await runTestcase(problem, submission);
+
+    const submissionIndex = await db.collection('submissions').countDocuments() + 1;
+
+    await db.collection('submissions').insertOne({
+      username: submission.username,
+      problemName: submission.title,
+      status: result.result,
+      log: result.log,
+      output: result.output,
+      error: result.error,
+      submissionIndex
+    });
+
     res.status(200).json(result);
   } catch (error) {
     console.error("Error during code execution:", error);
     res.status(500).json({ result: 'SERVER ERROR', log: 'Internal Server Error' });
   }
 });
+
 
 async function runTestcase(problem, submission) {
   const submissionDir = path.join(__dirname, '..', 'submissions', submission.username);
@@ -39,6 +54,11 @@ async function runTestcase(problem, submission) {
 
   for (let i = 0; i < problem.testcase.length; i++) {
     const testcase = problem.testcase[i];
+
+    fs.writeFileSync(inputFilePath, '');
+    fs.writeFileSync(outputFilePath, '');
+    fs.writeFileSync(errorFilePath, '');
+
     fs.writeFileSync(inputFilePath, testcase.input);
 
     const result = await executeInDocker(submission.language, {
@@ -58,20 +78,21 @@ async function runTestcase(problem, submission) {
         error,
       };
     }
-    // console.log('output', output.trim());
-    // console.log('output testcase', testcase.output.trim());
+
     if (output.trim() !== testcase.output.trim()) {
       return {
         result: 'WRONG ANSWER',
         log: `Wrong answer at testcase ${i + 1}`,
+        input: testcase.input,
         expectedOutput: testcase.output,
         actualOutput: output.trim(),
       };
     }
   }
 
-  return { result: 'ACCEPTED', log: 'All test cases passed successfully' };
+  return { result: 'ACCEPTED', log: 'All test cases passed successfully', expectedOutput: problem.testcase[0].output, actualOutput: problem.testcase[0].output, input: problem.testcase[0].input };
 }
+
 
 async function executeInDocker(language, filePaths) {
   const { codeFilePath, inputFilePath, outputFilePath, errorFilePath } = filePaths;
@@ -84,13 +105,13 @@ async function executeInDocker(language, filePaths) {
       entryPoint = 'g++ main.cpp -o main && ./main';
       break;
     case 'python':
-      imageName = 'code_arena-cpp_docker';
+      imageName = 'code_arena-python_docker';
       entryPoint = 'python3 main.py';
       break;
-    case 'javascript':
-      imageName = 'node-docker-image';
-      entryPoint = 'node main.js';
-      break;
+    // case 'javascript':
+    //   imageName = 'node-docker-image';
+    //   entryPoint = 'node main.js';
+    //   break;
     default:
       throw new Error('Unsupported language');
   }
@@ -100,7 +121,7 @@ async function executeInDocker(language, filePaths) {
     Cmd: ['sh', '-c', `${entryPoint} < input.txt > output.txt 2> error.txt`],
     Tty: false,
     HostConfig: {
-      Binds: [`${path.dirname(codeFilePath)}:/usr/src/app`], // volume binding
+      Binds: [`${path.dirname(codeFilePath)}:/usr/src/app`],
     },
     WorkingDir: '/usr/src/app',
   });

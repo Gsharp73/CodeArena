@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from './Header';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const ProblemSet = () => {
   const [problems, setProblems] = useState([]);
@@ -10,7 +11,7 @@ const ProblemSet = () => {
   const nav = useNavigate();
 
   const getProblems = async () => {
-    const response = await fetch('http://65.1.3.37:3000/problems', {
+    const response = await fetch(`${API_BASE_URL}/problems`, {
       method: "GET",
     });
     const json = await response.json();
@@ -18,7 +19,7 @@ const ProblemSet = () => {
   }
 
   const getaccess = async () => {
-    const response = await fetch('http://65.1.3.37:3000/access', {
+    const response = await fetch(`${API_BASE_URL}/access`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

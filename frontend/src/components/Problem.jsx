@@ -16,7 +16,7 @@ const Problem = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [username, setUsername] = useState('');
   const [access, setAccess] = useState('');
-
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
   const location = useLocation();
   const navigate = useNavigate();
   const token = localStorage.getItem('token');
@@ -27,7 +27,7 @@ const Problem = () => {
     }
 
     try {
-      const response = await fetch(`http://65.1.3.37:3000${location.pathname}`, {
+      const response = await fetch(`${API_BASE_URL}${location.pathname}`, {
         method: "GET",
         headers: {
           authorization: token,
@@ -66,8 +66,8 @@ const Problem = () => {
     setLogs("LOGS");
 
     try {
-      console.log(code);
-      const response = await fetch('http://ec2-65-1-3-37.ap-south-1.compute.amazonaws.com:3000/testing', {
+      // console.log(code);
+      const response = await fetch(`${API_BASE_URL}/testing`, {
         method: "POST",
         headers: {
           authorization: token,
@@ -82,12 +82,12 @@ const Problem = () => {
       });
 
       const received = await response.json();
-      console.log(received);
+      // console.log(received);
       setResult(received.result);
       setLogs(received.log);
-      setOutput(received.output);
+      setOutput(received.expectedOutput);
       setInput(received.input);
-      setYourOutput(received.youroutput);
+      setYourOutput(received.actualOutput);
     } catch (error) {
       console.error("Error submitting code:", error);
     }
@@ -132,7 +132,7 @@ const Problem = () => {
                 className="border rounded px-3 py-2 w-full"
               >
                 <option value="cpp">C++</option>
-                <option value="javascript">JavaScript</option>
+                {/* <option value="javascript">JavaScript</option> */}
                 <option value="python">Python</option>
               </select>
             </div>

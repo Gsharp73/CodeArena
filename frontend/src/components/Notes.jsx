@@ -5,23 +5,48 @@ import { formatDistanceToNow, parseISO } from 'date-fns';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
-const Home = () => {
+const Notes = () => {
   const [blogs, setBlogs] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [username, setUsername] = useState("");
   const [access, setAccess] = useState("user");
   const nav = useNavigate();
 
-  const getBlogs = async () => {
-    const response = await fetch(`${API_BASE_URL}/blogs`, {
-      method: "GET",
-    });
-    const json = await response.json();
-    // console.log(json);
-    const filteredBlogs = json.filter(blog => !blog.visibility || blog.visibility === 'public').reverse();
-    console.log(filteredBlogs);
-    setBlogs(filteredBlogs);
-  }
+  const getNotes = async () => {
+    const token = localStorage.getItem('token');
+    const username = localStorage.getItem('username');
+  
+    if (!username) {
+      console.error('Username is not available in localStorage');
+      return;
+    }
+  
+    try {
+      const response = await fetch(`${API_BASE_URL}/notes`, {
+        method: "GET",
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        params: { username }
+      });
+  
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+  
+      const json = await response.json();
+      console.log(json);
+  
+      // Filter for notes with visibility 'private'
+      const filteredNotes = json.filter(note => note.visibility === 'private');
+      console.log(filteredNotes);
+      setBlogs(filteredNotes); // or setNotes if using a different state
+    } catch (error) {
+      console.error('Error fetching notes:', error);
+    }
+  };
+  
 
   const getAccess = async () => {
     const response = await fetch(`${API_BASE_URL}/access`, {
@@ -38,16 +63,15 @@ const Home = () => {
   }
 
   const logout = () => {
-    const newLoginState = !isLoggedIn;
     localStorage.removeItem('username');
     localStorage.removeItem('token');
     localStorage.removeItem('access');
     setIsLoggedIn(false);
     setUsername("");
     setAccess("user");
-    localStorage.setItem('isLoggedIn', newLoginState);
+    localStorage.setItem('isLoggedIn', false);
   }
-    
+
   const loginStatus = () => {
     const user = localStorage.getItem('username');
     if (user) {
@@ -61,9 +85,7 @@ const Home = () => {
 
   useEffect(() => {
     loginStatus();
-    getBlogs();
-    const savedLoginState = localStorage.getItem('isLoggedIn') === 'true';
-    setIsLoggedIn(savedLoginState);
+    getNotes();
   }, []);
 
   return (
@@ -72,7 +94,7 @@ const Home = () => {
 
       <main className="container mx-auto px-4 py-8">
         <div className="bg-white shadow-lg rounded-lg overflow-hidden">
-          <h2 className="text-xl font-bold p-4 bg-gray-50 border-b">Blogs</h2>
+          <h2 className="text-xl font-bold p-4 bg-gray-50 border-b">My Notes (Private Blogs)</h2>
           <div className="space-y-4 p-4">
             {blogs.length > 0 ? blogs.map((blog, index) => {
               let dateString = '';
@@ -105,7 +127,7 @@ const Home = () => {
                 </div>
               );
             }) : (
-              <p className="text-center text-gray-500">No blogs available</p>
+              <p className="text-center text-gray-500">No private notes available</p>
             )}
           </div>
         </div>
@@ -113,4 +135,5 @@ const Home = () => {
     </div>
   );
 }
-export default Home;
+
+export default Notes

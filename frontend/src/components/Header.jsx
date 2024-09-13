@@ -53,6 +53,18 @@ const Header = ({ isLoggedIn, username, access, logout }) => {
             </li>
             <li>
               <a
+                href="/ide"
+                onClick={(e) => {
+                  e.preventDefault(); 
+                  nav('/ide');
+                }}
+                className="text-gray-700 font-semibold hover:text-black"
+              >
+                IDE
+              </a>
+            </li>
+            <li>
+              <a
                 href="/createblog"
                 onClick={(e) => {
                   e.preventDefault(); 
@@ -64,17 +76,55 @@ const Header = ({ isLoggedIn, username, access, logout }) => {
               </a>
             </li>
             {access === "admin" && (
+              <li>
+                <a
+                  href="/createproblem"
+                  onClick={(e) => {
+                    e.preventDefault(); 
+                    nav('/createproblem');
+                  }}
+                  className="text-gray-700 font-semibold hover:text-black"
+                >
+                  SET PROBLEM
+                </a>
+              </li>
+            )}
+            <li>
+              <a
+                href="/submissions"
+                onClick={(e) => {
+                  e.preventDefault(); 
+                  nav('/submissions');
+                }}
+                className="text-gray-700 font-semibold hover:text-black"
+              >
+                SUBMISSIONS
+              </a>
+            </li>
+            {isLoggedIn && (
               <>
                 <li>
                   <a
-                    href="/createproblem"
+                    href="/notes"
                     onClick={(e) => {
-                      e.preventDefault(); 
-                      nav('/createproblem');
+                      e.preventDefault();
+                      nav('/notes');
                     }}
                     className="text-gray-700 font-semibold hover:text-black"
                   >
-                    SET PROBLEM
+                    NOTES
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="/manageblogs"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      nav('/manageblogs');
+                    }}
+                    className="text-gray-700 font-semibold hover:text-black"
+                  >
+                    MANAGE BLOGS
                   </a>
                 </li>
               </>

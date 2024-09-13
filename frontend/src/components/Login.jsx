@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -9,7 +9,7 @@ const Login = () => {
 
   const handleSubmit = async () => {
     try {
-      const response = await fetch('http://ec2-65-1-3-37.ap-south-1.compute.amazonaws.com:3000/login', {
+      const response = await fetch(`${API_BASE_URL}/login`, {
         method: "POST",
         headers: {
           'Content-Type': 'application/json',

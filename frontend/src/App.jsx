@@ -6,6 +6,10 @@ import Problem from './components/Problem.jsx'
 import Createprob from './components/Createproblem.jsx'
 import Createblog from './components/Createblog.jsx'
 import ProblemSet from './components/Problemset.jsx'
+import CodeEditor from './components/Ide.jsx'
+import Submissions from './components/Submissions.jsx'
+import Notes from './components/Notes.jsx'
+import ManageBlogs from './components/Manageblogs.jsx'
 
 function App() {
   return (
@@ -19,6 +23,10 @@ function App() {
           <Route path = "/createproblem" element={<Createprob />}></Route>
           <Route path = "/createblog" element={<Createblog />}></Route>
           <Route path = "/problemset" element={<ProblemSet />}></Route>
+          <Route path = "/ide" element={<CodeEditor />}></Route>
+          <Route path = "/submissions" element={<Submissions />}></Route>
+          <Route path = "/notes" element={<Notes />}></Route>
+          <Route path = "/manageblogs" element={<ManageBlogs />}></Route>
         </Routes>
       </Router>
     </>
