@@ -12,7 +12,6 @@ const CodeEditor = () => {
   const [username, setUsername] = useState('');
   const [access, setAccess] = useState('');
   const navigate = useNavigate();
-  const token = localStorage.getItem('token');
 
   const handleRun = async () => {
     try {
@@ -34,6 +33,7 @@ const CodeEditor = () => {
   const logout = () => {
     localStorage.removeItem('username');
     localStorage.removeItem('token');
+    localStorage.removeItem('access');
     setIsLoggedIn(false);
     setUsername("");
     setAccess("user");
@@ -51,7 +51,7 @@ const CodeEditor = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-blue-500">
+    <div className="min-h-screen bg-gray-900 text-gray-200">
       <Header 
         isLoggedIn={isLoggedIn} 
         username={username} 
@@ -59,15 +59,15 @@ const CodeEditor = () => {
         access={access} 
       />
       <div className="container mx-auto p-8">
-        <div className="bg-white shadow-md rounded-md p-6">
+        <div className="bg-gray-800 shadow-md rounded-md p-6">
           <div className="flex flex-col lg:flex-row">
             <div className="w-full lg:w-1/2 lg:pr-4 mb-4 lg:mb-0">
-              <label htmlFor="language-select" className="block text-lg font-semibold mb-2">Choose Language:</label>
+              <label htmlFor="language-select" className="block text-lg font-semibold mb-2 text-gray-300">Choose Language:</label>
               <select
                 id="language-select"
                 value={language}
                 onChange={(e) => setLanguage(e.target.value)}
-                className="border rounded px-3 py-2 mb-4 w-full"
+                className="border border-gray-600 rounded px-3 py-2 mb-4 w-full bg-gray-700 text-gray-200"
               >
                 <option value="cpp">C++</option>
                 <option value="py">Python</option>
@@ -78,16 +78,16 @@ const CodeEditor = () => {
                 language={language}
                 value={code}
                 onChange={(value) => setCode(value)}
-                options={{ automaticLayout: true }}
+                options={{ automaticLayout: true, theme: 'vs-dark' }}
               />
             </div>
 
             <div className="w-full lg:w-1/2 lg:pl-4 flex flex-col">
               <div className="mb-4">
-                <label htmlFor="input" className="block text-lg font-semibold mb-2">Input:</label>
+                <label htmlFor="input" className="block text-lg font-semibold mb-2 text-gray-300">Input:</label>
                 <textarea
                   id="input"
-                  className="w-full p-2 border rounded"
+                  className="w-full p-2 border border-gray-600 rounded bg-gray-800 text-gray-200"
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   rows={10}
@@ -95,8 +95,8 @@ const CodeEditor = () => {
               </div>
 
               <div>
-                <label htmlFor="output" className="block text-lg font-semibold mb-2">Output:</label>
-                <div className="w-full p-2 border rounded bg-gray-50 h-40 overflow-y-auto">
+                <label htmlFor="output" className="block text-lg font-semibold mb-2 text-gray-300">Output:</label>
+                <div className="w-full p-2 border border-gray-600 rounded bg-gray-800 text-gray-200 h-40 overflow-y-auto">
                   <pre>{output || "Your output will appear here..."}</pre>
                 </div>
               </div>
@@ -105,7 +105,7 @@ const CodeEditor = () => {
 
           <button
             onClick={handleRun}
-            className="mt-6 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+            className="mt-6 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
           >
             Run Code
           </button>

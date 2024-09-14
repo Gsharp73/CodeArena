@@ -1,3 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@font-face {
+    font-family: 'Star Jedi';
+    src: url('/src/assets/fonts/Starjedi.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+  }
+  

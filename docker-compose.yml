@@ -24,7 +24,7 @@ services:
     networks:
       - codearena-p
     ports:
-      - "80:5173"  
+      - "8080:80"  
     volumes:
       - ./frontend:/app
     environment:

@@ -66,7 +66,6 @@ const Problem = () => {
     setLogs("LOGS");
 
     try {
-      // console.log(code);
       const response = await fetch(`${API_BASE_URL}/testing`, {
         method: "POST",
         headers: {
@@ -82,7 +81,6 @@ const Problem = () => {
       });
 
       const received = await response.json();
-      // console.log(received);
       setResult(received.result);
       setLogs(received.log);
       setOutput(received.expectedOutput);
@@ -98,14 +96,14 @@ const Problem = () => {
       case "ACCEPTED":
         return "text-green-400";
       case "PENDING":
-        return "text-yellow-600";
+        return "text-yellow-400";
       default:
-        return "text-red-800";
+        return "text-red-600";
     }
   };
 
   return (
-    <div className="min-h-screen bg-blue-500">
+    <div className="min-h-screen bg-gray-900 text-gray-200">
       <Header 
         isLoggedIn={isLoggedIn} 
         username={username} 
@@ -114,22 +112,22 @@ const Problem = () => {
       />
       <div className="container mx-auto py-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div className="bg-white shadow-md rounded-md p-6" >
+          <div className="bg-gray-800 shadow-lg rounded-md p-6">
             <h1 className="text-3xl font-bold mb-4">{problem.title}</h1>
             <h4 className="text-xl font-semibold">DESCRIPTION</h4>
-            <div className="my-4 p-4 bg-gray-50 rounded">
+            <div className="my-4 p-4 bg-gray-700 rounded">
               <p>{problem.description}</p>
             </div>
           </div>
 
-          <div className="bg-white shadow-md rounded-md p-6">
+          <div className="bg-gray-800 shadow-lg rounded-md p-6">
             <div className="mb-4">
               <label htmlFor="language-select" className="block text-lg font-semibold mb-2">Choose Language:</label>
               <select
                 id="language-select"
                 value={language}
                 onChange={(e) => setLanguage(e.target.value)}
-                className="border rounded px-3 py-2 w-full"
+                className="border border-gray-600 bg-gray-700 text-gray-200 rounded px-3 py-2 w-full"
               >
                 <option value="cpp">C++</option>
                 {/* <option value="javascript">JavaScript</option> */}
@@ -142,28 +140,28 @@ const Problem = () => {
               language={language}
               value={code}
               onChange={(value) => setCode(value)}
-              options={{ automaticLayout: true }}
-              style={{ border: "1px solid #ccc", borderRadius: "4px" }} 
+              options={{ automaticLayout: true, theme: 'vs-dark' }}
+              className="rounded"
             />
             <button 
               id="submitbutton" 
-              className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 mb-4"
+              className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 mb-4 mt-4"
               onClick={onSubmit}
             >
               SUBMIT
             </button>
             <p className={`text-xl font-semibold ${statuscolor()}`}>{result}</p>
-            <pre className="bg-gray-100 p-4 mt-4 rounded">{logs}</pre>
+            <pre className="bg-gray-700 p-4 mt-4 rounded">{logs}</pre>
             <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="p-4 bg-gray-100 rounded shadow">
+              <div className="p-4 bg-gray-700 rounded shadow">
                 <h4 className="font-bold">INPUT</h4>
                 <p>{input}</p>
               </div>
-              <div className="p-4 bg-gray-100 rounded shadow">
+              <div className="p-4 bg-gray-700 rounded shadow">
                 <h4 className="font-bold">OUTPUT</h4>
                 <p>{output}</p>
               </div>
-              <div className="p-4 bg-gray-100 rounded shadow">
+              <div className="p-4 bg-gray-700 rounded shadow">
                 <h4 className="font-bold">USER OUTPUT</h4>
                 <p>{yourOutput}</p>
               </div>

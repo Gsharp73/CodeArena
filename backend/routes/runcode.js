@@ -55,16 +55,17 @@ async function executeCodeInDocker(language, code, input) {
 
 async function executeInDocker(language, filePaths) {
   const { codeFilePath, inputFilePath, outputFilePath, errorFilePath } = filePaths;
-  let imageName, entryPoint;
+  let imageName;
+  let entryPoint;
 
   switch (language) {
     case 'cpp':
       imageName = 'code_arena-cpp_docker';
-      entryPoint = 'g++ main.cpp -o main && ./main';
+      entryPoint = 'g++ main.cpp -o main && timeout 6s ./main';
       break;
-    case 'py':
-      imageName = 'code_arena-python_docker';
-      entryPoint = 'python3 main.py';
+    case 'python':
+      imageName = 'codearena-python_docker';
+      entryPoint = 'timeout 6s python3 main.py';
       break;
     default:
       throw new Error('Unsupported language');
@@ -75,26 +76,36 @@ async function executeInDocker(language, filePaths) {
     Cmd: ['sh', '-c', `${entryPoint} < input.txt > output.txt 2> error.txt`],
     Tty: false,
     HostConfig: {
-      Binds: [`${path.dirname(codeFilePath)}:/usr/src/app`], // volume binding
+      Binds: [`${path.dirname(codeFilePath)}:/usr/src/app`],
     },
     WorkingDir: '/usr/src/app',
   });
 
   try {
     await container.start();
+
     const result = await container.wait();
 
     if (result.StatusCode !== 0) {
       const error = fs.readFileSync(errorFilePath, 'utf-8');
       return {
         result: 'RUNTIME ERROR',
-        log: 'Runtime error occurred',
+        log: `Runtime error occurred or code took too long to execute`,
         error,
       };
     }
-  } finally {
+  } 
+  catch (err) {
+    if (err.message.includes('timeout')) {
+      return {
+        result: 'TIME LIMIT EXCEEDED',
+        log: 'The code execution exceeded the time limit of 6 seconds',
+      };
+    }
+    throw err;
+  } 
+  finally {
     await container.remove();
   }
 }
-
 module.exports = router;

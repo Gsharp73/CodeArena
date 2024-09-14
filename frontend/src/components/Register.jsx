@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const Register = () => {
@@ -39,28 +40,33 @@ const Register = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-6">
-      <div className="bg-white p-8 rounded shadow-md w-full max-w-sm">
-        <h2 className="text-2xl font-bold mb-4 text-center">Register</h2>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 p-6">
+      <div className="bg-gray-800 p-8 rounded-lg shadow-lg w-full max-w-sm">
+        <h2 className="text-2xl font-bold mb-6 text-center text-white">Register</h2>
         <input
-          className="w-full p-2 mb-4 border rounded"
+          type="email"
+          className="w-full p-3 mb-4 border border-gray-700 rounded bg-gray-900 text-gray-100 placeholder-gray-400"
           placeholder="Enter your email"
+          value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
         <input
           type="password"
-          className="w-full p-2 mb-4 border rounded"
+          className="w-full p-3 mb-6 border border-gray-700 rounded bg-gray-900 text-gray-100 placeholder-gray-400"
           placeholder="Enter your password"
+          value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
         <button
           type="button"
-          className="bg-blue-500 text-white w-full py-2 rounded hover:bg-blue-600"
+          className="bg-blue-500 text-white w-full py-2 rounded-lg hover:bg-blue-600 transition-colors"
           onClick={handleSubmit}
         >
           Register
         </button>
-        <p className="mt-4 text-center text-red-500">{responseMessage}</p>
+        {responseMessage && (
+          <p className="mt-4 text-center text-red-400">{responseMessage}</p>
+        )}
       </div>
     </div>
   );

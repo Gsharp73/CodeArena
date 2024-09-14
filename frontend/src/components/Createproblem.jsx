@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Header from './Header';
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 const Createprob = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -68,32 +69,32 @@ const Createprob = () => {
   };
 
   return (
-    <div className="min-h-screen bg-blue-500">
+    <div className="min-h-screen bg-gray-900">
       <Header 
-          isLoggedIn={isLoggedIn} 
-          username={username} 
-          logout={logout} 
-          access={access} 
+        isLoggedIn={isLoggedIn} 
+        username={username} 
+        logout={logout} 
+        access={access} 
       />
-      <div id="Createprob" className="min-h-screen bg-gray-100 p-8">
-        <h2 className="text-3xl font-bold mb-6">Create New Problem</h2>
+      <div id="Createprob" className="min-h-screen bg-gray-900 p-8">
+        <h2 className="text-3xl font-bold mb-6 text-white">Create New Problem</h2>
         <table className="w-full text-left table-auto mb-6">
           <tbody>
             <tr>
-              <td className="py-2 pr-4 font-bold">Problem Title</td>
+              <td className="py-2 pr-4 font-bold text-white">Problem Title</td>
               <td>
                 <textarea 
-                  className="w-full p-3 border rounded"
+                  className="w-full p-3 border border-gray-600 bg-gray-800 text-white rounded"
                   placeholder="Enter problem title"
                   onChange={(e) => setTitle(e.target.value)}
                 />
               </td>
             </tr>
             <tr>
-              <td className="py-2 pr-4 font-bold">Problem Description</td>
+              <td className="py-2 pr-4 font-bold text-white">Problem Description</td>
               <td>
                 <textarea
-                  className="w-full p-3 border rounded"
+                  className="w-full p-3 border border-gray-600 bg-gray-800 text-white rounded"
                   placeholder="Provide detailed description with sample input/output"
                   id="description-area"
                   onChange={(e) => setDescription(e.target.value)}
@@ -101,31 +102,31 @@ const Createprob = () => {
               </td>
             </tr>
             <tr>
-              <td className="py-2 pr-4 font-bold">Rating</td>
+              <td className="py-2 pr-4 font-bold text-white">Rating</td>
               <td>
                 <input 
                   type="number"
-                  className="w-full p-3 border rounded"
+                  className="w-full p-3 border border-gray-600 bg-gray-800 text-white rounded"
                   placeholder="Enter problem rating (e.g., 1000)"
                   onChange={(e) => setRating(e.target.value)}
                 />
               </td>
             </tr>
             <tr>
-              <td className="py-2 pr-4 font-bold">Memory Limit (MB)</td>
+              <td className="py-2 pr-4 font-bold text-white">Memory Limit (MB)</td>
               <td>
                 <textarea
-                  className="w-full p-3 border rounded"
+                  className="w-full p-3 border border-gray-600 bg-gray-800 text-white rounded"
                   placeholder="Default is 256 MB"
                   onChange={(e) => setMemoryLimit(e.target.value)}
                 />
               </td>
             </tr>
             <tr>
-              <td className="py-2 pr-4 font-bold">Time Limit (in seconds)</td>
+              <td className="py-2 pr-4 font-bold text-white">Time Limit (in seconds)</td>
               <td>
                 <select 
-                  className="w-full p-2 border rounded"
+                  className="w-full p-2 border border-gray-600 bg-gray-800 text-white rounded"
                   onChange={(e) => setTimeLimit(e.target.value)}
                 >
                   {[...Array(10).keys()].map(i => <option key={i + 1}>{i + 1}</option>)}
@@ -133,20 +134,20 @@ const Createprob = () => {
               </td>
             </tr>
             <tr>
-              <td className="py-2 pr-4 font-bold">Test Case Input</td>
+              <td className="py-2 pr-4 font-bold text-white">Test Case Input</td>
               <td>
                 <textarea 
-                  className="w-full p-3 border rounded"
+                  className="w-full p-3 border border-gray-600 bg-gray-800 text-white rounded"
                   placeholder="Provide input for the test case"
                   onChange={(e) => setTestInput(e.target.value)}
                 />
               </td>
             </tr>
             <tr>
-              <td className="py-2 pr-4 font-bold">Test Case Output</td>
+              <td className="py-2 pr-4 font-bold text-white">Test Case Output</td>
               <td>
                 <textarea 
-                  className="w-full p-3 border rounded"
+                  className="w-full p-3 border border-gray-600 bg-gray-800 text-white rounded"
                   placeholder="Provide expected output for the test case"
                   onChange={(e) => setTestOutput(e.target.value)}
                 />
@@ -169,7 +170,7 @@ const Createprob = () => {
         >
           Submit Problem
         </button>
-        <p className="mt-4">{statusMessage}</p>
+        <p className="mt-4 text-white">{statusMessage}</p>
       </div>
     </div>
   );

@@ -2,7 +2,11 @@
 export default {
   content: ["./src/**/*.{html,js,jsx}"],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        starwars: ['"Star Jedi"', 'sans-serif'], 
+      },
+    }
   },
   plugins: [],
 }

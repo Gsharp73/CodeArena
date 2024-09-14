@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -14,22 +16,19 @@ const Login = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          email,
-          password,
-        }),
+        body: JSON.stringify({ email, password }),
       });
 
       const data = await response.json();
-      
+
       if (response.ok) {
         localStorage.setItem("token", data.token);
         localStorage.setItem("username", email);
         localStorage.setItem('access', data.access);
         localStorage.setItem('isLoggedIn', true);
-        navigate(-1); // previous page
+        navigate(-1); // Go back to the previous page
       } else {
-        setLoginResponse(data.msg);
+        setLoginResponse(data.msg || "Invalid email or password.");
       }
     } catch (error) {
       console.error("Login failed:", error);
@@ -38,18 +37,18 @@ const Login = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-6">
-      <div className="bg-white p-8 rounded shadow-md w-full max-w-sm">
-        <h2 className="text-2xl font-bold mb-4 text-center">Login</h2>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-gray-100 p-6">
+      <div className="bg-gray-800 p-8 rounded-lg shadow-lg w-full max-w-sm">
+        <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
         <input
-          className="w-full p-2 mb-4 border rounded"
+          className="w-full p-3 mb-4 border border-gray-700 rounded bg-gray-700 text-gray-200"
           placeholder="Email"
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
         <input
-          className="w-full p-2 mb-4 border rounded"
+          className="w-full p-3 mb-4 border border-gray-700 rounded bg-gray-700 text-gray-200"
           placeholder="Password"
           type="password"
           value={password}
@@ -57,12 +56,14 @@ const Login = () => {
         />
         <button
           type="button"
-          className="bg-blue-500 text-white w-full py-2 rounded hover:bg-blue-600"
+          className="bg-blue-600 text-white w-full py-2 rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
           onClick={handleSubmit}
         >
           Submit
         </button>
-        {loginResponse && <p className="mt-4 text-center text-red-500">{loginResponse}</p>}
+        {loginResponse && (
+          <p className="mt-4 text-center text-red-400">{loginResponse}</p>
+        )}
       </div>
     </div>
   );

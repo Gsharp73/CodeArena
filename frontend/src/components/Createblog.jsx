@@ -6,7 +6,7 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const CreateBlog = () => {
   const [title, setTitle] = useState("");
-  const [content, setContent] = useState(``);
+  const [content, setContent] = useState("");
   const [statusMessage, setStatusMessage] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [username, setUsername] = useState('');
@@ -66,34 +66,34 @@ const CreateBlog = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-blue-500 flex flex-col">
+    <div className="min-h-screen bg-gray-900 flex flex-col">
       <Header 
         isLoggedIn={isLoggedIn} 
         username={username} 
         logout={logout} 
         access={access} 
       />
-      <div id="CreateBlog" className="flex flex-col justify-center items-center min-h-screen bg-blue-500 p-8">
-        <div className="w-[85%] max-w-5xl bg-white p-10 rounded-lg shadow-lg">
-          <h2 className="text-3xl font-bold mb-6 text-center">Create New Blog</h2>
+      <div id="CreateBlog" className="flex flex-col justify-center items-center min-h-screen bg-gray-900 p-8">
+        <div className="w-[85%] max-w-5xl bg-[#1B1F23] p-10 rounded-lg shadow-lg">
+          <h2 className="text-3xl font-bold mb-6 text-center text-white">Create New Blog</h2>
           <div className="mb-6">
-            <label className="block text-lg font-bold mb-2">Blog Title</label>
+            <label className="block text-lg font-bold mb-2 text-white">Blog Title</label>
             <textarea 
-              className="w-full p-3 border rounded mb-4"
+              className="w-full p-3 border border-gray-600 bg-gray-800 text-white rounded mb-4"
               placeholder="Enter blog title"
               onChange={(e) => setTitle(e.target.value)}
             />
-            <label className="block text-lg font-bold mb-2">Content</label>
+            <label className="block text-lg font-bold mb-2 text-white">Content</label>
             <textarea
-              className="w-full p-3 border rounded mb-4"
+              className="w-full p-3 border border-gray-600 bg-gray-800 text-white rounded mb-4"
               placeholder="Write your blog content here"
               id="content-area"
               onChange={(e) => setContent(e.target.value)}
               rows="12"  
             />
-            <label className="block text-lg font-bold mb-2">Visibility</label>
+            <label className="block text-lg font-bold mb-2 text-white">Visibility</label>
             <select
-              className="w-full p-3 border rounded mb-4"
+              className="w-full p-3 border border-gray-600 bg-gray-800 text-white rounded mb-4"
               value={visibility}
               onChange={(e) => setVisibility(e.target.value)}
             >
@@ -108,7 +108,7 @@ const CreateBlog = () => {
           >
             Submit Blog
           </button>
-          <p className="mt-4 text-center">{statusMessage}</p>
+          <p className="mt-4 text-center text-white">{statusMessage}</p>
         </div>
       </div>
     </div>

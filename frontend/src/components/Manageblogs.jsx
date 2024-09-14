@@ -26,9 +26,7 @@ const ManageBlogs = () => {
         }
       });
       const json = await response.json();
-      console.log(access);
       if (access !== 'admin') {
-        // console.log('here');
         setBlogs(json.filter(blog => blog.username === username));
       } else {
         setBlogs(json);
@@ -57,7 +55,6 @@ const ManageBlogs = () => {
         setBlogs(blogs.filter(blog => blog._id !== id));
         setStatusMessage('Blog deleted successfully');
       } else {
-        console.error('Failed to delete blog');
         setStatusMessage('Failed to delete blog');
       }
     } catch (error) {
@@ -89,12 +86,12 @@ const ManageBlogs = () => {
 
   useEffect(() => {
     if (access) {
-      fetchBlogs(); 
+      fetchBlogs();
     }
   }, [access]);
 
   return (
-    <div className="min-h-screen bg-blue-500">
+    <div className="min-h-screen bg-gray-900 text-gray-100">
       <Header 
         isLoggedIn={isLoggedIn} 
         username={username} 
@@ -102,17 +99,21 @@ const ManageBlogs = () => {
         access={access} 
       />
       <div className="container mx-auto py-8">
-        <div className="bg-white shadow-md rounded-md p-6">
-          <h1 className="text-2xl font-bold mb-4">Manage Your Blogs</h1>
-          {statusMessage && <p className="text-center text-gray-500">{statusMessage}</p>}
+        <div className="bg-gray-800 shadow-lg rounded-lg p-6">
+          <h1 className="text-3xl font-bold mb-6 text-center">Manage Your Blogs</h1>
+          {statusMessage && (
+            <p className={`text-center ${statusMessage.includes('Error') ? 'text-red-400' : 'text-green-400'} mb-4`}>
+              {statusMessage}
+            </p>
+          )}
           {blogs.length > 0 ? (
-            <ul>
+            <ul className="space-y-4">
               {blogs.map((blog) => (
-                <li key={blog._id} className="flex justify-between items-center mb-4">
-                  <span>{blog.title}</span>
+                <li key={blog._id} className="flex justify-between items-center p-4 bg-gray-800 border border-gray-700 rounded-md">
+                  <span className="text-lg font-semibold">{blog.title}</span>
                   <button
                     onClick={() => deleteBlog(blog._id)}
-                    className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+                    className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500"
                   >
                     Delete
                   </button>
@@ -120,7 +121,7 @@ const ManageBlogs = () => {
               ))}
             </ul>
           ) : (
-            <p className="text-center text-gray-500">No blogs available</p>
+            <p className="text-center text-gray-400">No blogs available</p>
           )}
         </div>
       </div>

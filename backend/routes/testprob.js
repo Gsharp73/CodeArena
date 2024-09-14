@@ -6,7 +6,6 @@ const docker = new Docker();
 const router = express.Router();
 const { auth } = require('../utils/authenticate');
 
-
 router.post('/', auth, async (req, res) => {
   const submission = req.body;
   const problem = await db.collection('problems').findOne({ title: submission.title });
@@ -17,9 +16,7 @@ router.post('/', auth, async (req, res) => {
 
   try {
     const result = await runTestcase(problem, submission);
-
     const submissionIndex = await db.collection('submissions').countDocuments() + 1;
-
     await db.collection('submissions').insertOne({
       username: submission.username,
       problemName: submission.title,
@@ -93,7 +90,6 @@ async function runTestcase(problem, submission) {
   return { result: 'ACCEPTED', log: 'All test cases passed successfully', expectedOutput: problem.testcase[0].output, actualOutput: problem.testcase[0].output, input: problem.testcase[0].input };
 }
 
-
 async function executeInDocker(language, filePaths) {
   const { codeFilePath, inputFilePath, outputFilePath, errorFilePath } = filePaths;
   let imageName;
@@ -102,23 +98,19 @@ async function executeInDocker(language, filePaths) {
   switch (language) {
     case 'cpp':
       imageName = 'code_arena-cpp_docker';
-      entryPoint = 'g++ main.cpp -o main && ./main';
+      entryPoint = 'g++ main.cpp -o main && timeout 6s ./main';
       break;
     case 'python':
-      imageName = 'code_arena-python_docker';
-      entryPoint = 'python3 main.py';
+      imageName = 'codearena-python_docker';
+      entryPoint = 'timeout 6s python3 main.py';
       break;
-    // case 'javascript':
-    //   imageName = 'node-docker-image';
-    //   entryPoint = 'node main.js';
-    //   break;
     default:
       throw new Error('Unsupported language');
   }
 
   const container = await docker.createContainer({
     Image: imageName,
-    Cmd: ['sh', '-c', `${entryPoint} < input.txt > output.txt 2> error.txt`],
+    Cmd: ['sh', '-c', `timeout 6 ${entryPoint} < input.txt > output.txt 2> error.txt`],
     Tty: false,
     HostConfig: {
       Binds: [`${path.dirname(codeFilePath)}:/usr/src/app`],
@@ -128,19 +120,29 @@ async function executeInDocker(language, filePaths) {
 
   try {
     await container.start();
+
     const result = await container.wait();
 
     if (result.StatusCode !== 0) {
       const error = fs.readFileSync(errorFilePath, 'utf-8');
       return {
         result: 'RUNTIME ERROR',
-        log: `Runtime error occurred`,
+        log: `Runtime error occurred or code took too long to execute`,
         error,
       };
     }
+  } catch (err) {
+    if (err.message.includes('timeout')) {
+      return {
+        result: 'TIME LIMIT EXCEEDED',
+        log: 'The code execution exceeded the time limit of 6 seconds',
+      };
+    }
+    throw err;
   } finally {
     await container.remove();
   }
 }
+
 
 module.exports = router;

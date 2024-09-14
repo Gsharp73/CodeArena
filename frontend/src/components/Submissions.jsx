@@ -15,7 +15,7 @@ const Submissions = () => {
     if (!token) {
       return navigate('/login');
     }
-  
+
     try {
       const response = await fetch(`${API_BASE_URL}/submissions`, {
         method: "GET",
@@ -24,13 +24,12 @@ const Submissions = () => {
         }
       });
       const json = await response.json();
-  
       setSubmissions(json.reverse());
     } catch (error) {
       console.error("Error fetching submissions:", error);
     }
   };
-  
+
   const logout = () => {
     localStorage.removeItem('username');
     localStorage.removeItem('token');
@@ -51,40 +50,42 @@ const Submissions = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-blue-500">
+    <div className="min-h-screen bg-gray-900 text-gray-100">
       <Header 
         isLoggedIn={isLoggedIn} 
         username={username} 
         logout={logout} 
         access={access} 
       />
-      <div className="container mx-auto py-8">
-        <div className="bg-white shadow-md rounded-md p-6">
-          <h1 className="text-3xl font-bold mb-4">Submissions</h1>
-          <table className="w-full bg-white shadow rounded-md">
-            <thead>
-              <tr className="bg-gray-100 border-b">
-                <th className="px-4 py-2 text-left">Index</th>
-                <th className="px-4 py-2 text-left">Username</th>
-                <th className="px-4 py-2 text-left">Problem Name</th>
-                <th className="px-4 py-2 text-left">Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {submissions.map((submission, index) => (
-                <tr key={index} className="border-b">
-                  <td className="px-4 py-2">{submission.submissionIndex}</td>
-                  <td className="px-4 py-2">{submission.username}</td>
-                  <td className="px-4 py-2">{submission.problemName}</td>
-                  <td className="px-4 py-2">
-                    <span className={`font-bold ${submission.status === 'ACCEPTED' ? 'text-green-500' : 'text-red-500'}`}>
-                      {submission.status}
-                    </span>
-                  </td>
+      <div className="container mx-auto py-8 px-4">
+        <div className="bg-gray-800 shadow-lg rounded-lg p-6">
+          <h1 className="text-3xl font-bold mb-6 text-blue-400">Submissions</h1>
+          <div className="overflow-x-auto">
+            <table className="w-full bg-gray-700 border border-gray-600 rounded-lg">
+              <thead>
+                <tr className="bg-gray-600 border-b border-gray-500">
+                  <th className="px-6 py-3 text-left text-gray-200">Index</th>
+                  <th className="px-6 py-3 text-left text-gray-200">Username</th>
+                  <th className="px-6 py-3 text-left text-gray-200">Problem Name</th>
+                  <th className="px-6 py-3 text-left text-gray-200">Status</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {submissions.map((submission, index) => (
+                  <tr key={index} className="border-b border-gray-600 hover:bg-gray-600 transition-colors">
+                    <td className="px-6 py-4">{submission.submissionIndex}</td>
+                    <td className="px-6 py-4">{submission.username}</td>
+                    <td className="px-6 py-4">{submission.problemName}</td>
+                    <td className="px-6 py-4">
+                      <span className={`font-semibold ${submission.status === 'ACCEPTED' ? 'text-green-400' : 'text-red-400'}`}>
+                        {submission.status}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>

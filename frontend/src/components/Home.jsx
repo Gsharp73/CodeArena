@@ -17,9 +17,7 @@ const Home = () => {
       method: "GET",
     });
     const json = await response.json();
-    // console.log(json);
     const filteredBlogs = json.filter(blog => !blog.visibility || blog.visibility === 'public').reverse();
-    console.log(filteredBlogs);
     setBlogs(filteredBlogs);
   }
 
@@ -67,12 +65,12 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-blue-500">
+    <div className="min-h-screen bg-gray-900 text-gray-200">
       <Header isLoggedIn={isLoggedIn} username={username} access={access} logout={logout} />
 
       <main className="container mx-auto px-4 py-8">
-        <div className="bg-white shadow-lg rounded-lg overflow-hidden">
-          <h2 className="text-xl font-bold p-4 bg-gray-50 border-b">Blogs</h2>
+        <div className="bg-gray-800 shadow-lg rounded-lg overflow-hidden">
+          <h2 className="text-xl font-bold p-4 bg-gray-700 border-b border-gray-600 text-white">Blogs</h2>
           <div className="space-y-4 p-4">
             {blogs.length > 0 ? blogs.map((blog, index) => {
               let dateString = '';
@@ -86,11 +84,11 @@ const Home = () => {
               }
 
               return (
-                <div key={index} className="bg-white shadow-md rounded-lg p-4 border border-gray-300">
-                  <h3 className="text-xl font-semibold mb-2">
+                <div key={index} className="bg-gray-700 shadow-md rounded-lg p-4 border border-gray-600">
+                  <h3 className="text-xl font-semibold mb-2 text-white">
                     {blog.title}
                     {(blog.username || dateString) && (
-                      <span className="block text-gray-500 text-sm mt-1">
+                      <span className="block text-gray-400 text-sm mt-1">
                         {blog.username ? `By ${blog.username}` : ''}
                         {dateString ? `, ${dateString}` : ''}
                       </span>
@@ -99,13 +97,13 @@ const Home = () => {
                   
                   {/* Preserve line breaks in the content */}
                   <div 
-                    className="text-gray-700 mb-4" 
+                    className="text-gray-300 mb-4" 
                     dangerouslySetInnerHTML={{ __html: blog.content.replace(/\n/g, '<br/>') }}
                   />
                 </div>
               );
             }) : (
-              <p className="text-center text-gray-500">No blogs available</p>
+              <p className="text-center text-gray-400">No blogs available</p>
             )}
           </div>
         </div>
@@ -113,4 +111,5 @@ const Home = () => {
     </div>
   );
 }
+
 export default Home;

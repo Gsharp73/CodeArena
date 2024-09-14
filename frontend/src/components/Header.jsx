@@ -5,36 +5,56 @@ const Header = ({ isLoggedIn, username, access, logout }) => {
 
   return (
     <>
-      <header className="bg-white shadow">
+      <header className="bg-black shadow">
         <div className="container mx-auto px-4 py-3 flex justify-between items-center">
-          <h1 onClick={() => nav('/')} className="text-3xl font-bold text-gray-800 cursor-pointer">CodeArena</h1>
+          <h1
+            onClick={() => nav('/')}
+            className="text-3xl font-starwars text-yellow-400 cursor-pointer"
+          >
+            Code Arena
+          </h1>
           <div className="flex items-center space-x-4">
             {isLoggedIn ? (
               <>
-                <span className="text-gray-700">{username}</span>
-                <button onClick={logout} className="px-3 py-1 text-sm bg-red-500 text-white rounded hover:bg-red-600">Logout</button>
+                <span className="text-white">{username}</span>
+                <button
+                  onClick={logout}
+                  className="px-3 py-1 text-sm bg-red-500 text-white rounded hover:bg-red-600"
+                >
+                  Logout
+                </button>
               </>
             ) : (
               <>
-                <button onClick={() => nav('/login')} className="px-3 py-1 text-sm bg-blue-500 text-white rounded hover:bg-blue-600">Enter</button>
-                <button onClick={() => nav('/register')} className="px-3 py-1 text-sm bg-blue-500 text-white rounded hover:bg-blue-600">Register</button>
+                <button
+                  onClick={() => nav('/login')}
+                  className="px-3 py-1 text-sm bg-blue-500 text-white rounded hover:bg-blue-600"
+                >
+                  Enter
+                </button>
+                <button
+                  onClick={() => nav('/register')}
+                  className="px-3 py-1 text-sm bg-blue-500 text-white rounded hover:bg-blue-600"
+                >
+                  Register
+                </button>
               </>
             )}
           </div>
         </div>
       </header>
 
-      <nav className="bg-gray-200 shadow-sm">
+      <nav className="bg-[#1B1F23] shadow-sm">
         <div className="container mx-auto px-4">
           <ul className="flex space-x-8 py-3">
             <li>
               <a
                 href="/"
                 onClick={(e) => {
-                  e.preventDefault(); 
+                  e.preventDefault();
                   nav('/');
                 }}
-                className="text-gray-700 font-semibold hover:text-black"
+                className="text-white font-semibold hover:text-gray-300"
               >
                 HOME
               </a>
@@ -46,7 +66,7 @@ const Header = ({ isLoggedIn, username, access, logout }) => {
                   e.preventDefault();
                   nav('/problemset');
                 }}
-                className="text-gray-700 font-semibold hover:text-black"
+                className="text-white font-semibold hover:text-gray-300"
               >
                 PROBLEMSET
               </a>
@@ -55,10 +75,10 @@ const Header = ({ isLoggedIn, username, access, logout }) => {
               <a
                 href="/ide"
                 onClick={(e) => {
-                  e.preventDefault(); 
+                  e.preventDefault();
                   nav('/ide');
                 }}
-                className="text-gray-700 font-semibold hover:text-black"
+                className="text-white font-semibold hover:text-gray-300"
               >
                 IDE
               </a>
@@ -67,23 +87,23 @@ const Header = ({ isLoggedIn, username, access, logout }) => {
               <a
                 href="/createblog"
                 onClick={(e) => {
-                  e.preventDefault(); 
+                  e.preventDefault();
                   nav('/createblog');
                 }}
-                className="text-gray-700 font-semibold hover:text-black"
+                className="text-white font-semibold hover:text-gray-300"
               >
                 CREATE BLOG
               </a>
             </li>
-            {access === "admin" && (
+            {access === 'admin' && (
               <li>
                 <a
                   href="/createproblem"
                   onClick={(e) => {
-                    e.preventDefault(); 
+                    e.preventDefault();
                     nav('/createproblem');
                   }}
-                  className="text-gray-700 font-semibold hover:text-black"
+                  className="text-white font-semibold hover:text-gray-300"
                 >
                   SET PROBLEM
                 </a>
@@ -93,10 +113,10 @@ const Header = ({ isLoggedIn, username, access, logout }) => {
               <a
                 href="/submissions"
                 onClick={(e) => {
-                  e.preventDefault(); 
+                  e.preventDefault();
                   nav('/submissions');
                 }}
-                className="text-gray-700 font-semibold hover:text-black"
+                className="text-white font-semibold hover:text-gray-300"
               >
                 SUBMISSIONS
               </a>
@@ -110,7 +130,7 @@ const Header = ({ isLoggedIn, username, access, logout }) => {
                       e.preventDefault();
                       nav('/notes');
                     }}
-                    className="text-gray-700 font-semibold hover:text-black"
+                    className="text-white font-semibold hover:text-gray-300"
                   >
                     NOTES
                   </a>
@@ -122,7 +142,7 @@ const Header = ({ isLoggedIn, username, access, logout }) => {
                       e.preventDefault();
                       nav('/manageblogs');
                     }}
-                    className="text-gray-700 font-semibold hover:text-black"
+                    className="text-white font-semibold hover:text-gray-300"
                   >
                     MANAGE BLOGS
                   </a>
