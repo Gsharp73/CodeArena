@@ -60,7 +60,7 @@ async function executeInDocker(language, filePaths) {
 
   switch (language) {
     case 'cpp':
-      imageName = 'code_arena-cpp_docker';
+      imageName = 'codearena-cpp_docker';
       entryPoint = 'g++ main.cpp -o main && timeout 6s ./main';
       break;
     case 'python':
